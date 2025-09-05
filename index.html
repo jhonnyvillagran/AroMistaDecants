@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Meta Tags -->
+    <title>AroMista Decants - Tu Perfumería de Muestras</title>
+    <meta name="description" content="Explora fragancias de lujo sin comprar la botella completa. Decants 100% originales para que descubras tu aroma perfecto.">
+    <meta name="keywords" content="decants, perfumes, muestras, probadores, fragancias, perfumería, online, lujo, mejor precio, aromas, colonias">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #D4AF37; --primary-dark: #B8941F; --secondary: #8B4B8C; --accent: #E6B800; --dark: #1A1A1A;
+            --darker: #0F0F0F; --light: #F5F5F5; --success: #228B22; --warning: #DAA520; --danger: #8B0000;
+            --transition: all 0.3s ease; --shadow: 0 0 15px rgba(212, 175, 55, 0.3); --shadow-lg: 0 0 25px rgba(212, 175, 55, 0.5);
+            --border-radius: 8px; --bg-primary: #1A1A1A; --bg-secondary: #2A2A2A; --text-primary: #F5F5F5; --text-secondary: #C0C0C0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; color: var(--text-primary); background-color: var(--bg-primary); overflow-x: hidden; transition: background-color 0.3s, color 0.3s; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+        .view { display: none; }
+        .view.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .btn { display: inline-block; padding: 12px 24px; border: none; border-radius: var(--border-radius); cursor: pointer; font-weight: 600; transition: var(--transition); text-align: center; font-size: 1rem; position: relative; overflow: hidden; box-shadow: var(--shadow); }
+        .btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent); transition: 0.5s; }
+        .btn:hover::before { left: 100%; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: var(--dark); border: 1px solid var(--primary); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .btn-whatsapp-inquiry { background: linear-gradient(135deg, #25D366, #1DA851); color: white; border: 1px solid #25D366; margin-top: 15px; box-shadow: var(--shadow); }
+        .btn-whatsapp-inquiry:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); background: linear-gradient(135deg, #1DA851, #25D366); }
+        .btn-whatsapp-inquiry i { margin-right: 8px; }
+        .header { position: fixed; top: 0; left: 0; width: 100%; background-color: rgba(26, 26, 26, 0.95); box-shadow: var(--shadow); z-index: 1000; padding: 15px 0; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(212, 175, 55, 0.3); }
+        .header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo-img { height: 50px; width: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+        .nav ul { display: flex; gap: 30px; align-items: center; }
+        .nav a { font-weight: 600; position: relative; padding: 5px 0; color: var(--text-primary); transition: color 0.3s; }
+        .nav a:hover { color: var(--primary); text-shadow: 0 0 8px rgba(212, 175, 55, 0.7); }
+        .nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--primary), var(--secondary)); transition: var(--transition); }
+        .nav a:hover::after { width: 100%; }
+        .nav .dropdown { position: relative; display: inline-block; }
+        .nav .dropdown .dropbtn { cursor: pointer; }
+        .nav .dropdown .dropbtn i { margin-left: 5px; font-size: 0.8em; transition: transform 0.3s ease; }
+        .nav .dropdown-content { display: none; position: absolute; background-color: var(--bg-secondary); min-width: 180px; box-shadow: var(--shadow); z-index: 1; border-radius: var(--border-radius); border: 1px solid rgba(212, 175, 55, 0.2); margin-top: 10px; overflow: hidden; }
+        .nav .dropdown-content a { color: var(--text-secondary); padding: 12px 16px; display: block; font-weight: 500; }
+        .nav .dropdown-content a:hover { background-color: var(--dark); color: var(--primary); }
+        .nav .dropdown-content a::after { display: none; }
+        .nav .dropdown:hover .dropdown-content { display: block; animation: fadeIn 0.3s ease; }
+        .nav .dropdown:hover .dropbtn i { transform: rotate(180deg); }
+        .nav .dropdown:hover > a::after { width: 100%; }
+        .header-actions { display: flex; gap: 10px; align-items: center; }
+        .cart-btn, .user-btn { background: none; border: none; font-size: 1.3rem; cursor: pointer; position: relative; color: var(--text-primary); transition: var(--transition); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(212, 175, 55, 0.3); }
+        .cart-btn:hover, .user-btn:hover { color: var(--dark); background: linear-gradient(135deg, var(--primary), var(--primary-dark)); transform: scale(1.1); box-shadow: var(--shadow-lg); }
+        .cart-count { position: absolute; top: -5px; right: -5px; background: var(--danger); color: white; font-size: 0.7rem; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 1px solid var(--dark); }
+        .search-form { position: relative; display: flex; align-items: center; }
+        .search-input { background-color: var(--bg-secondary); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 20px; height: 40px; width: 40px; padding-left: 20px; padding-right: 40px; color: var(--text-primary); outline: none; cursor: pointer; transition: width 0.4s ease-in-out; }
+        .search-input:focus { width: 220px; cursor: text; box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2); }
+        .search-btn { background: none; border: none; color: var(--text-primary); font-size: 1.1rem; position: absolute; right: 0px; top: 50%; transform: translateY(-50%); padding: 10px; cursor: pointer; z-index: 2; }
+        #search-suggestions { display: none; position: absolute; top: calc(100% + 5px); left: 0; width: 220px; background-color: var(--bg-secondary); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: var(--border-radius); max-height: 250px; overflow-y: auto; z-index: 5001; box-shadow: var(--shadow); }
+        #search-suggestions.visible { display: block; }
+        .suggestion-item { padding: 12px 18px; cursor: pointer; color: var(--text-secondary); font-size: 0.95rem; transition: all 0.2s ease; border-bottom: 1px solid rgba(212, 175, 55, 0.1); }
+        .suggestion-item:last-child { border-bottom: none; }
+        .suggestion-item:hover { background-color: rgba(212, 175, 55, 0.1); color: var(--primary); }
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--text-primary); font-size: 1.5rem; cursor: pointer; z-index: 1100; }
+        .close-nav-btn { display: none; }
+        .main-content { padding-top: 80px; }
+        .hero { height: 100vh; background: linear-gradient(rgba(26, 26, 26, 0.7), rgba(26, 26, 26, 0.8)), url('perfume-banner.jpg') center/cover; display: flex; align-items: center; justify-content: center; text-align: center; color: white; margin-top: -80px; position: relative; }
+        .hero-content { max-width: 700px; padding: 0 20px; z-index: 2; margin-top: -100px; }
+        .hero-title { font-size: 3rem; margin-bottom: 15px; text-shadow: 0 0 15px rgba(212, 175, 55, 0.7); font-weight: 800; background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .hero-subtitle { font-size: 1.3rem; margin-bottom: 25px; font-weight: 500; color: var(--light); line-height: 1.4; }
+        .featured-banner { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 900px; height: 160px; background: rgba(42, 42, 42, 0.9); border-radius: var(--border-radius); border: 1px solid rgba(212, 175, 55, 0.3); overflow: hidden; z-index: 3; }
+        .banner-container { display: flex; height: 100%; transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .banner-slide { min-width: 100%; height: 100%; display: flex; align-items: center; padding: 20px; gap: 30px; }
+        .banner-product-image { width: 120px; height: 120px; object-fit: cover; border-radius: var(--border-radius); flex-shrink: 0; border: 2px solid rgba(212, 175, 55, 0.5); }
+        .banner-product-info { flex: 1; text-align: left; }
+        .banner-product-title { font-size: 1.4rem; font-weight: 600; color: var(--primary); margin-bottom: 5px; text-shadow: 0 0 5px var(--primary); }
+        .banner-product-price { font-size: 1.2rem; color: var(--success); font-weight: 700; }
+        .banner-product-description { font-size: 0.9rem; color: var(--text-secondary); }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 50px; position: relative; color: var(--text-primary); font-weight: 700; text-shadow: 0 0 10px rgba(212, 175, 55, 0.5); padding-top: 80px;}
+        .section-title::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 2px; }
+        .store-info-section { padding: 80px 0; }
+        .info-section { padding: 80px 0; background: var(--bg-secondary); }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; text-align: center; }
+        .info-card { background: var(--dark); padding: 30px; border-radius: var(--border-radius); border: 1px solid rgba(212, 175, 55, 0.2); transition: var(--transition); }
+        .info-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+        .info-card i { font-size: 2.5rem; color: var(--primary); margin-bottom: 15px; }
+        .info-card h3 { font-size: 1.5rem; margin-bottom: 10px; color: var(--light); }
+        .info-card p, .info-card ul { color: var(--text-secondary); line-height: 1.8; }
+        .info-card li { margin-bottom: 5px; }
+        .products { padding: 80px 0; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .product-card { background: var(--bg-secondary); border-radius: var(--border-radius); overflow: hidden; box-shadow: var(--shadow); transition: var(--transition); border: 1px solid rgba(212, 175, 55, 0.2); display: flex; flex-direction: column; text-decoration: none; }
+        .product-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
+        .product-carousel { height: 300px; position: relative; background-color: var(--darker); overflow: hidden; }
+        .carousel-container { display: flex; height: 100%; transition: transform 0.5s ease; }
+        .carousel-slide { min-width: 100%; height: 100%; display:flex; align-items:center; justify-content:center; position: relative; overflow: hidden; }
+        .carousel-slide::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; filter: blur(15px); transform: scale(1.2); opacity: 0.7; z-index: 1; background-image: var(--bg-img); }
+        .carousel-slide img { width: 100%; height: 100%; object-fit: contain; position: relative; z-index: 2; }
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.5); color: var(--primary); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 2; }
+        .carousel-btn.prev { left: 10px; } .carousel-btn.next { right: 10px; }
+        .carousel-nav { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 2; }
+        .carousel-dot { width: 10px; height: 10px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.4); cursor: pointer; }
+        .carousel-dot.active { background-color: var(--primary); }
+        .product-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .product-title { font-size: 1.3rem; margin-bottom: 10px; }
+        .product-description { color: var(--text-secondary); margin-bottom: 15px; font-size: 0.9rem; height: 4.2em; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+        .product-price { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-top: auto; padding-top: 15px; }
+        .price-inquiry-text { font-size: 1.2rem; font-weight: 600; text-align: center; padding: 10px 0; margin-top: auto; background: linear-gradient(90deg, var(--secondary), var(--primary-dark)); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: none; letter-spacing: 0.03em; }
+        #product-detail-view .container { padding: 40px 0; }
+        #product-detail-view .product-carousel { height: 480px; }
+        .product-detail-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: flex-start; }
+        .product-detail-title { font-size: 2.8rem; margin-bottom: 15px; color: var(--primary); }
+        .product-detail-price { font-size: 2rem; font-weight: bold; margin-bottom: 20px; }
+        .product-detail-price.price-inquiry-text { font-size: 2.2rem; background: linear-gradient(90deg, var(--secondary), var(--primary-dark)); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 0 10px rgba(139, 75, 140, 0.5); }
+        .product-detail-description { color: var(--text-secondary); margin-bottom: 30px; line-height: 1.7; }
+        .product-detail-actions .btn { width: 100%; font-size: 1.2rem; }
+        .back-to-products { display: inline-block; margin-bottom: 30px; color: var(--primary); }
+        .page-view { padding: 40px 0; }
+        .page-content { background: var(--bg-secondary); padding: 40px; border-radius: var(--border-radius); border: 1px solid rgba(212,175,55,0.2); }
+        .page-content h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--primary); }
+        .page-content p, .page-content ul { margin-bottom: 15px; line-height: 1.8; color: var(--text-secondary); }
+        .page-content li { margin-left: 20px; list-style: disc; }
+        .faq-item { margin-bottom: 20px; border: 1px solid rgba(212, 175, 55, 0.2); border-radius: var(--border-radius); overflow: hidden; }
+        .faq-question { background: var(--dark); padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: var(--transition); }
+        .faq-question:hover { background: rgba(212, 175, 55, 0.1); }
+        .faq-question h4 { color: var(--primary); font-size: 1.1rem; margin: 0; }
+        .faq-icon { color: var(--primary); transition: transform 0.3s ease; }
+        .faq-answer { padding: 0 20px; max-height: 0; overflow: hidden; transition: all 0.3s ease; background: var(--bg-secondary); }
+        .faq-answer.active { padding: 20px 20px; max-height: 300px; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        .cart-overlay, .details-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); display: flex; z-index: 2000; opacity: 0; visibility: hidden; transition: var(--transition); }
+        .cart-overlay { justify-content: flex-end; }
+        .details-overlay { align-items: center; justify-content: center; }
+        .cart-overlay.active, .details-overlay.active { opacity: 1; visibility: visible; }
+        .cart { background: var(--bg-primary); width: 100%; max-width: 450px; height: 100%; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.3s ease; box-shadow: -5px 0 25px rgba(212, 175, 55, 0.3); border-left: 1px solid rgba(212, 175, 55, 0.3); }
+        .cart-overlay.active .cart { transform: translateX(0); }
+        .cart-header { padding: 20px; border-bottom: 1px solid rgba(212, 175, 55, 0.3); display: flex; justify-content: space-between; align-items: center; }
+        .close-cart { background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--text-primary); }
+        .cart-items { flex: 1; overflow-y: auto; padding: 20px; }
+        .cart-item { display: flex; gap: 15px; padding-bottom: 15px; margin-bottom: 15px; border-bottom: 1px solid rgba(212, 175, 55, 0.1); align-items: center; }
+        .cart-item-image { width: 80px; height: 80px; object-fit: cover; border-radius: var(--border-radius); flex-shrink: 0; }
+        .cart-item-details { flex: 1; display: flex; flex-direction: column; }
+        .cart-item-info { display: flex; justify-content: space-between; align-items: flex-start; }
+        .cart-item-title { font-weight: 600; margin-bottom: 5px; }
+        .cart-item-price { color: var(--primary); font-weight: 700; }
+        .remove-item { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 1rem; margin-left: 10px; }
+        .cart-item-actions { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+        .quantity-btn { width: 30px; height: 30px; border: 2px solid; background: var(--bg-secondary); cursor: pointer; border-radius: 50%; color: white; font-weight: bold; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+        .quantity-btn.decrease { border-color: var(--danger); color: var(--danger); }
+        .quantity-btn.decrease:hover { background: var(--danger); color: white; }
+        .quantity-btn.increase { border-color: var(--success); color: var(--success); }
+        .quantity-btn.increase:hover { background: var(--success); color: var(--dark); }
+        .cart-footer { padding: 20px; border-top: 1px solid rgba(212, 175, 55, 0.3); }
+        .cart-total { font-size: 1.3rem; margin-bottom: 20px; text-align: right; font-weight: 700; }
+        .whatsapp-info { background: rgba(37, 211, 102, 0.1); border: 1px solid #25D366; border-radius: var(--border-radius); padding: 15px; margin-bottom: 20px; }
+        .whatsapp-info p { color: var(--text-secondary); font-size: 0.9rem; margin: 0; text-align: center; }
+        .whatsapp-info i { color: #25D366; margin-right: 8px; }
+        .details-panel { background: var(--bg-primary); width: 100%; max-width: 420px; border-radius: var(--border-radius); transform: scale(0.8); transition: transform 0.3s ease; box-shadow: 0 20px 50px rgba(212, 175, 55, 0.3); border: 1px solid rgba(212, 175, 55, 0.3); margin: 20px; }
+        .details-overlay.active .details-panel { transform: scale(1); }
+        .details-header { padding: 20px; background: linear-gradient(90deg, var(--dark), #1a1a2e); display: flex; justify-content: space-between; align-items: center; }
+        .close-details { background: none; border: none; font-size: 2rem; cursor: pointer; color: white; }
+        .details-content { padding: 30px; max-height: 80vh; overflow-y: auto; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; }
+        .form-group input { width: 100%; padding: 12px 15px; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: var(--border-radius); background: var(--bg-secondary); color: var(--text-primary); }
+        .form-group input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2); }
+        .about { padding: 80px 0; background: var(--bg-secondary); }
+        .about-content { text-align: center; max-width: 800px; margin: 0 auto; color: var(--text-secondary); line-height: 1.8;}
+        .about-content p { margin-bottom: 20px; }
+        .about-content span { color: var(--primary); font-weight: 600; }
+        .footer { background: var(--dark); padding: 40px 0 20px; text-align: center; border-top: 1px solid rgba(212, 175, 55, 0.2); }
+        .footer-links { margin-bottom: 20px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-secondary); transition: color 0.3s; }
+        .footer-links a:hover { color: var(--primary); }
+        .footer-socials { margin-bottom: 25px; display: flex; justify-content: center; gap: 30px; }
+        .footer-socials a { font-size: 1.8rem; color: var(--text-secondary); transition: var(--transition); }
+        .footer-socials a:hover { color: var(--primary); transform: translateY(-3px); text-shadow: 0 0 8px rgba(212, 175, 55, 0.7); }
+        .notification { position: fixed; bottom: 20px; right: 20px; background-color: var(--success); color: var(--dark); padding: 15px 25px; border-radius: var(--border-radius); box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 3000; opacity: 0; transform: translateY(20px); transition: all 0.3s ease; }
+        .notification.show { opacity: 1; transform: translateY(0); }
+        .notification.error { background-color: var(--danger); color: white; }
+        .notification.warning { background-color: var(--warning); color: var(--dark); }
+        .placeholder { color: #64748b; text-align: center; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
+        .placeholder i { font-size: 2rem; margin-bottom: 10px; }
+        .whatsapp-fab { position: fixed; bottom: 25px; left: 25px; z-index: 1001; }
+        .whatsapp-fab a { display: flex; align-items: center; justify-content: center; background-color: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.4); font-size: 2.5rem; transition: all 0.3s ease; }
+        .whatsapp-fab a:hover { transform: scale(1.1) rotate(10deg); box-shadow: 0 6px 16px rgba(0,0,0,0.5); }
+        .whatsapp-fab .tooltip { position: absolute; left: 75px; top: 50%; transform: translateY(-50%); background-color: var(--darker); color: var(--light); padding: 8px 15px; border-radius: var(--border-radius); white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity 0.3s ease; border: 1px solid rgba(212, 175, 55, 0.3); }
+        .whatsapp-fab:hover .tooltip { opacity: 1; visibility: visible; }
+        @media (max-width: 768px) {
+            .nav { position: fixed; top: 0; left: 0; width: 85%; max-width: 320px; height: 100%; background-color: var(--bg-primary); box-shadow: 5px 0 20px rgba(0,0,0,0.5); transform: translateX(-100%); transition: transform 0.3s ease-in-out; z-index: 5000; padding-top: 60px; }
+            .nav.active { transform: translateX(0); }
+            .nav ul { display: flex; flex-direction: column; align-items: flex-start; gap: 0; }
+            .nav li { width: 100%; border-bottom: 1px solid rgba(212, 175, 55, 0.1); }
+            .nav li:first-child { border-top: 1px solid rgba(212, 175, 55, 0.1); }
+            .nav a { padding: 18px 25px; display: block; width: 100%; }
+            .nav a::after { display: none; }
+            .nav .dropdown-content { display: none; position: static; background-color: var(--dark); box-shadow: none; border: none; border-radius: 0; width: 100%; max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out; }
+            .nav .dropdown.active .dropdown-content { display: block; max-height: 500px; }
+            .nav .dropdown.active .dropbtn i { transform: rotate(180deg); }
+            .nav .dropdown-content a { padding-left: 45px; color: var(--text-secondary); font-size: 0.95em; }
+            .mobile-menu-btn { display: block; }
+            .close-nav-btn { display: block; position: absolute; top: 10px; right: 20px; background: none; border: none; font-size: 2.5rem; color: var(--text-primary); cursor: pointer; }
+            .search-input:focus { width: 180px; }
+            #search-suggestions { width: 180px; }
+            .hero-title { font-size: 2.5rem; }
+            .hero-subtitle { font-size: 1.2rem; }
+            .section-title { font-size: 2rem; padding-top: 60px; }
+            .product-detail-layout { grid-template-columns: 1fr; gap: 20px; }
+            #product-detail-view .product-carousel { height: 380px; }
+            .cart { max-width: 100%; }
+            .details-panel { margin: 10px; max-width: calc(100% - 20px); }
+            .featured-banner { width: 95%; height: 140px; bottom: 30px; }
+            .banner-slide { padding: 15px; gap: 15px; }
+            .banner-product-image { width: 100px; height: 100px; }
+            .banner-product-title { font-size: 1.1rem; }
+            .banner-product-price { font-size: 1rem; }
+            .banner-product-description { font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="#"><img src="Logo.png" alt="AroMista Logo" class="logo-img"></a>
+            </div>
+            <nav class="nav" id="main-nav">
+                <button class="close-nav-btn" id="close-nav-btn">&times;</button>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li class="dropdown">
+                        <a href="#productos" class="dropbtn">Productos <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a class="dropdown-item" href="#/productos/arabes">Árabes</a>
+                            <a class="dropdown-item" href="#/productos/diseno">Diseño</a>
+                            <a class="dropdown-item" href="#/productos/hombres">Hombres</a>
+                            <a class="dropdown-item" href="#/productos/mujeres">Mujeres</a>
+                            <hr class="dropdown-divider">
+                            <a class="dropdown-item" href="#productos">Ver Todos</a>
+                        </div>
+                    </li>
+                    <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#/faq">FAQ</a></li>
+                    <li><a href="https://armomista.netlify.app/" target="_blank" rel="noopener noreferrer">Tienda Principal</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <form class="search-form" id="search-form" role="search" onsubmit="event.preventDefault();">
+                    <input type="search" id="search-input" class="search-input" placeholder="Buscar..." autocomplete="off">
+                    <button class="search-btn" id="search-btn" type="submit" aria-label="Buscar"><i class="fas fa-search"></i></button>
+                    <div id="search-suggestions"></div>
+                </form>
+                <button class="user-btn" id="user-btn" aria-label="Datos de usuario"><i class="fas fa-user"></i></button>
+                <button class="cart-btn" id="cart-btn" aria-label="Carrito de compras">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </button>
+            </div>
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Abrir menú"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <main class="main-content" id="main-container">
+        <div id="main-view" class="view active">
+            <section class="hero" id="inicio">
+                <div class="hero-content">
+                    <h2 class="hero-title">AROMISTA DECANTS</h2>
+                    <p class="hero-subtitle">Descubre fragancias de lujo en el tamaño perfecto. Muestras 100% originales, ideales para explorar tu nuevo aroma favorito.</p>
+                    <a href="#productos" class="btn btn-primary">Ver Decants</a>
+                </div>
+                <div class="featured-banner" id="featured-banner">
+                    <div class="banner-container" id="banner-container"></div>
+                </div>
+            </section>
+            
+            <section class="store-info-section">
+                <div class="container">
+                    <h2 class="section-title">¿Qué son los Decants?</h2>
+                    <div class="about-content">
+                        <p>
+                            Un decant es una muestra de perfume 100% original, extraída directamente de su botella de diseñador y envasada en un atomizador de vidrio más pequeño. Es la forma perfecta de probar una fragancia en tu piel, ver cómo evoluciona y decidir si te encanta antes de invertir en una botella completa.
+                        </p>
+                        <p>
+                            En AroMista trabajamos con los perfumes más buscados para ofrecerte una amplia variedad de decants. Para organizar mejor los tiempos y asegurarnos de que todos reciban sus pedidos de manera rápida, establecimos días fijos de envío:<br>
+                            <strong style="color: var(--primary);">🚚 Martes, Viernes y los sábados por la mañana → realizamos los envíos de todos los pedidos confirmados.</strong>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-section">
+                <div class="container">
+                     <div class="info-grid">
+                        <div class="info-card">
+                             <i class="fas fa-credit-card"></i>
+                             <h3>Formas de Pago Flexibles</h3>
+                             <p>Para tu comodidad, aceptamos pagos por: Prex, Oca Blue, Mi Dinero, Mercado Pago y transferencia bancaria.</p>
+                        </div>
+                         <div class="info-card">
+                             <i class="fas fa-headset"></i>
+                             <h3>Atención Personalizada</h3>
+                             <p><strong>Lunes a Viernes:</strong> 09:30 a 19:00<br><strong>Sábados:</strong> 09:30 a 13:00. ¡Consúltanos por la agencia de envío de tu preferencia!</p>
+                        </div>
+                     </div>
+                </div>
+            </section>
+
+            <section class="about" id="nosotros">
+                <div class="container">
+                    <h2 class="section-title">Sobre AroMista</h2>
+                    <div class="about-content">
+                        <p>
+                            Somos <span>AroMista</span>, una empresa uruguaya de ventas online, apasionada por las fragancias y dedicada a hacer que los mejores aromas del mundo sean accesibles para todos en Uruguay.
+                        </p>
+                        <p>
+                             Nuestra línea de <strong>Decants</strong> nace de esa misma misión: darte la oportunidad de explorar perfumes de alta gama de manera económica y práctica. Creemos que todos merecen encontrar su fragancia perfecta sin tener que comprar una botella completa a ciegas.
+                        </p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="products" id="productos">
+                <div class="container">
+                    <h2 class="section-title">Nuestros Decants</h2>
+                    <div class="products-grid" id="products-container"></div>
+                </div>
+            </section>
+        </div>
+
+        <div id="product-detail-view" class="view"></div>
+        
+        <div id="faq-view" class="view">
+            <h2 class="section-title">Decants AroMista – Preguntas Frecuentes</h2>
+            <div class="container page-view">
+                <a href="#" class="back-to-products"><i class="fas fa-arrow-left"></i> Volver a la tienda</a>
+                <div class="page-content">
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)"><h4>🤔 ¿Qué es exactamente un decant?</h4><i class="fas fa-chevron-down faq-icon"></i></div>
+                        <div class="faq-answer"><p>Un decant es una muestra de un perfume original. Nosotros extraemos cuidadosamente la fragancia de su botella de venta al público y la transferimos a un atomizador de vidrio más pequeño y de alta calidad. No es una imitación ni una inspiración, es el perfume 100% auténtico.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)"><h4>👍 ¿Por qué debería comprar un decant?</h4><i class="fas fa-chevron-down faq-icon"></i></div>
+                        <div class="faq-answer"><p>Comprar un decant es la forma más inteligente y económica de:<br>- Probar una fragancia cara antes de invertir en la botella grande.<br>- Tener una variedad de perfumes para diferentes ocasiones sin gastar una fortuna.<br>- Llevar tus fragancias favoritas de viaje de forma cómoda y segura.<br>- Descubrir si un perfume realmente funciona con la química de tu piel.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)"><h4>💧 ¿De qué tamaño son los decants?</h4><i class="fas fa-chevron-down faq-icon"></i></div>
+                        <div class="faq-answer"><p>Ofrecemos principalmente decants en tamaños de 5ml y 10ml. Un atomizador de 5ml te da aproximadamente 70-75 sprays, mientras que uno de 10ml te da alrededor de 140-150 sprays. ¡Es más que suficiente para probar a fondo una fragancia!</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)"><h4>🧪 ¿Cómo se envasan los decants?</h4><i class="fas fa-chevron-down faq-icon"></i></div>
+                        <div class="faq-answer"><p>Utilizamos jeringas estériles para extraer el perfume y lo transferimos a atomizadores de vidrio de alta calidad. Cada atomizador se sella con cinta de teflón para evitar cualquier fuga y se etiqueta claramente con el nombre del perfume. La higiene y la preservación del aroma son nuestra máxima prioridad.</p></div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)"><h4>📅 ¿Qué días se realizan los envíos?</h4><i class="fas fa-chevron-down faq-icon"></i></div>
+                        <div class="faq-answer"><p>Realizamos envíos los martes, viernes y sábados por la mañana. Si confirmas tu pago antes de las 15:30 del día anterior, tu pedido se incluirá en el próximo envío programado.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="terms-view" class="view"><h2 class="section-title">Términos y Condiciones</h2><div class="container page-view"><a href="#" class="back-to-products"><i class="fas fa-arrow-left"></i> Volver a la tienda</a><div class="page-content"><h3>1. General</h3><p>Al acceder y realizar un pedido en AroMista, usted confirma que está de acuerdo y sujeto a los términos de servicio.</p><h3>2. Productos y Precios</h3><p>Todos los productos y precios están sujetos a cambios. Los precios se muestran en Pesos Uruguayos (UYU).</p><h3>3. Pagos</h3><p>Aceptamos múltiples métodos de pago. El pago debe ser completado antes del envío.</p><h3>4. Envíos</h3><p>Realizamos envíos a todo el territorio uruguayo. Los costos de envío son responsabilidad del cliente.</p></div></div></div>
+        <div id="privacy-view" class="view"><h2 class="section-title">Política de Privacidad</h2><div class="container page-view"><a href="#" class="back-to-products"><i class="fas fa-arrow-left"></i> Volver a la tienda</a><div class="page-content"><h3>1. Información que Recopilamos</h3><p>Recopilamos su nombre, email, cédula, dirección y agencia.</p><h3>2. Cómo Usamos su Información</h3><p>Su información se utiliza exclusivamente para procesar y enviar su pedido.</p><h3>3. Seguridad de los Datos</h3><p>Nos comprometemos a proteger la seguridad de su información personal.</p></div></div></div>
+    </main>
+
+    <div class="cart-overlay" id="cart-overlay">
+        <div class="cart">
+            <div class="cart-header"><h3>Tu Carrito</h3><button class="close-cart" id="close-cart">&times;</button></div>
+            <div class="cart-items" id="cart-items"></div>
+            <div class="cart-footer">
+                <div class="whatsapp-info"><p><i class="fab fa-whatsapp"></i> Al finalizar serás redirigido a WhatsApp para confirmar tu pedido.</p></div>
+                <div class="cart-total"><strong>Total: $<span id="cart-total">0.00</span></strong></div>
+                <div class="cart-actions"><button class="btn btn-primary" id="checkout-btn" style="width:100%;">Proceder al Pago</button></div>
+            </div>
+        </div>
+    </div>
+    <div class="details-overlay" id="details-overlay">
+        <div class="details-panel">
+            <div class="details-header"><h3>Completa tus Datos de Envío</h3><button class="close-details" id="close-details">&times;</button></div>
+            <div class="details-content">
+                <form id="shipping-form">
+                    <div class="form-group"><label for="shipping-name">Nombre Completo:</label><input type="text" id="shipping-name" required></div>
+                    <div class="form-group"><label for="shipping-email">Email:</label><input type="email" id="shipping-email" required></div>
+                    <div class="form-group"><label for="shipping-cedula">Cédula de Identidad:</label><input type="text" id="shipping-cedula" required></div>
+                    <div class="form-group"><label for="shipping-direccion">Dirección Completa:</label><input type="text" id="shipping-direccion" required></div>
+                    <div class="form-group"><label for="shipping-agencia">Agencia de Envío:</label><input type="text" id="shipping-agencia" required></div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Guardar y Proceder al Pago</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-socials">
+                <a href="https://www.instagram.com/aromista.uy/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/Aromista.uy/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            </div>
+            <div class="footer-links">
+                <a href="#/terminos">Términos y Condiciones</a>
+                <a href="#/privacidad">Política de Privacidad</a>
+                <a href="#/faq">Preguntas Frecuentes</a>
+            </div>
+            <p>© 2025 AroMista. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    <div class="whatsapp-fab">
+        <a href="https://wa.me/59894991600?text=Hola%20AroMista%2C%20quisiera%20recibir%20asesoramiento%20sobre%20sus%20decants." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <span class="tooltip">¿Tienes dudas? ¡Escríbenos!</span>
+    </div>
+
+    <script>
+        // =========================================================================
+        // ===== ¡IMPORTANTE! Pega aquí la URL de tu SCRIPT DE GOOGLE =====
+        // =========================================================================
+        const SCRIPT_URL = 'URL_DE_TU_NUEVO_SCRIPT_PARA_DECANTS';
+
+        let products = [];
+        let customerDetails = null;
+        let cart = [];
+        const activeCarousels = {};
+        let bannerInterval;
+        let isLoadingProducts = true;
+        const productCardCarouselsState = {};
+        
+        const mainContainer = document.getElementById('main-container');
+        const views = document.querySelectorAll('.view');
+        const productsContainer = document.getElementById('products-container');
+        const cartBtn = document.getElementById('cart-btn');
+        const cartOverlay = document.getElementById('cart-overlay');
+        const closeCart = document.getElementById('close-cart');
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const cartCount = document.querySelector('.cart-count');
+        const userBtn = document.getElementById('user-btn');
+        const detailsOverlay = document.getElementById('details-overlay');
+        const closeDetails = document.getElementById('close-details');
+        const shippingForm = document.getElementById('shipping-form');
+        const checkoutBtn = document.getElementById('checkout-btn');
+        const productDetailView = document.getElementById('product-detail-view');
+        const bannerContainer = document.getElementById('banner-container');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mainNav = document.getElementById('main-nav');
+        const closeNavBtn = document.getElementById('close-nav-btn');
+        const searchInput = document.getElementById('search-input');
+        const searchForm = document.getElementById('search-form');
+        const searchSuggestions = document.getElementById('search-suggestions');
+        const WHATSAPP_NUMBER = '59894991600';
+
+        function getPrice(item) {
+            const priceValue = item.price;
+            if (priceValue === null || priceValue === undefined || priceValue === '') return 0;
+            if (typeof priceValue === 'number') return priceValue;
+            if (typeof priceValue === 'string') {
+                const cleanString = priceValue.replace(/[^0-9,.]/g, '').replace(',', '.');
+                const numericValue = parseFloat(cleanString);
+                return isNaN(numericValue) ? 0 : numericValue;
+            }
+            return 0;
+        }
+
+        function saveCartToLocalStorage() { localStorage.setItem('aroMistaDecantsCart', JSON.stringify(cart)); }
+        function loadCartFromLocalStorage() {
+            const savedCart = localStorage.getItem('aroMistaDecantsCart');
+            if (savedCart) { cart = JSON.parse(savedCart); }
+        }
+        
+        async function fetchProducts() {
+            try {
+                productsContainer.innerHTML = `<p class="placeholder" style="grid-column: 1 / -1;">Cargando decants...</p>`;
+                const response = await fetch(SCRIPT_URL);
+                if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
+                const data = await response.json();
+                if (Array.isArray(data)) { products = data; } 
+                else { products = []; console.error("La respuesta del script no fue un array:", data); }
+                isLoadingProducts = false; 
+                handleRouteChange();
+                initializeFeaturedBanner();
+            } catch (error) {
+                showNotification('Error al cargar decants.', 'error');
+                productsContainer.innerHTML = "<p class='placeholder' style='grid-column: 1 / -1;'>No se pudieron cargar los decants. Revisa la conexión y la URL del script.</p>";
+                isLoadingProducts = false; 
+            }
+        }
+        
+        async function saveShippingDetails(e) {
+            e.preventDefault();
+            const details = {
+                action: 'registerUser', name: document.getElementById('shipping-name').value, email: document.getElementById('shipping-email').value,
+                cedula: document.getElementById('shipping-cedula').value, direccion: document.getElementById('shipping-direccion').value,
+                agencia: document.getElementById('shipping-agencia').value
+            };
+            showNotification('Guardando tus datos...', 'warning');
+            try {
+                await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(details) });
+                customerDetails = details;
+                showNotification('Datos guardados.', 'success');
+                closeDetailsForm();
+                redirectToWhatsApp();
+            } catch (error) { showNotification('No se pudieron guardar los datos.', 'error'); }
+        }
+        
+        function initializeFeaturedBanner() {
+            if (products.length === 0) return;
+            const shuffleArray = (array) => { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } return array; };
+            const allProductsWithImages = products.filter(p => p.images && p.images.length > 0 && p.images[0] && getPrice(p) > 0);
+            const featuredProducts = shuffleArray([...allProductsWithImages]).slice(0, 10);
+            if (featuredProducts.length === 0) { document.getElementById('featured-banner').style.display = 'none'; return; }
+            bannerContainer.innerHTML = featuredProducts.map(product => `
+                <a href="#/producto/${product.id}" class="banner-slide">
+                    <img src="${product.images[0]}" class="banner-product-image" alt="${product.name}">
+                    <div class="banner-product-info">
+                        <div class="banner-product-title">${product.name}</div>
+                        <div class="banner-product-price">$${getPrice(product).toFixed(2)}</div>
+                        <div class="banner-product-description">${(product.description || '').substring(0, 50)}...</div>
+                    </div>
+                </a>`).join('');
+            let currentBannerIndex = 0;
+            if (bannerInterval) clearInterval(bannerInterval);
+            if (featuredProducts.length > 1) {
+                bannerInterval = setInterval(() => {
+                    currentBannerIndex = (currentBannerIndex + 1) % featuredProducts.length;
+                    bannerContainer.style.transform = `translateX(-${currentBannerIndex * 100}%)`;
+                }, 4000);
+            }
+        }
+        
+        function toggleFAQ(element) {
+            const faqItem = element.closest('.faq-item');
+            faqItem.classList.toggle('active');
+            const answer = faqItem.querySelector('.faq-answer');
+            answer.classList.toggle('active');
+        }
+        
+        function handleRouteChange() {
+            const hash = location.hash || '#';
+            views.forEach(view => view.classList.remove('active'));
+            window.scrollTo(0, 0);
+            if (hash.startsWith('#/producto/')) { renderProductDetail(hash.split('/')[2]); productDetailView.classList.add('active'); } 
+            else if (hash.startsWith('#/productos/')) { renderProducts(null, hash.split('/')[2]); document.getElementById('main-view').classList.add('active'); setTimeout(() => { document.getElementById('productos').scrollIntoView({ behavior: 'smooth' }); }, 100); } 
+            else if (hash === '#/terminos') { document.getElementById('terms-view').classList.add('active'); } 
+            else if (hash === '#/privacidad') { document.getElementById('privacy-view').classList.add('active'); } 
+            else if (hash === '#/faq') { document.getElementById('faq-view').classList.add('active'); } 
+            else { renderProducts(); document.getElementById('main-view').classList.add('active'); updateMetaTags(); }
+            mainNav.classList.remove('active');
+        }
+        
+        function showSuggestions() { /* ... Lógica de sugerencias ... */ }
+        function handleSearch() { /* ... Lógica de búsqueda ... */ }
+        function initializeProductCardCarousels() { /* ... Lógica de carrusel en tarjetas ... */ }
+
+        function renderProducts(productsToUse = null, filterCategory = null) {
+            if (isLoadingProducts) return;
+            if (!products || products.length === 0) { productsContainer.innerHTML = `<p class="placeholder" style="grid-column: 1 / -1;">No se encontraron decants.</p>`; return; }
+            
+            let productsToRender = products;
+            if (productsToUse) {
+                productsToRender = productsToUse;
+            } else if (filterCategory) {
+                productsToRender = products.filter(p => {
+                    if (!p.categoria) return false;
+                    const productCategories = p.categoria.toLowerCase().split(',').map(c => c.trim());
+                    let searchSlug = filterCategory.replace(/-/g, ' ');
+                    if (searchSlug === 'hombres') searchSlug = 'hombre';
+                    if (searchSlug === 'mujeres') searchSlug = 'mujer';
+                    if (searchSlug === 'arabes') searchSlug = 'arabe';
+                    return productCategories.some(prodCat => prodCat.includes(searchSlug));
+                });
+            }
+            
+            productsContainer.innerHTML = '';
+            if (productsToRender.length === 0) { productsContainer.innerHTML = `<p class="placeholder" style="grid-column: 1 / -1;">No se encontraron decants para esta categoría.</p>`; return; }
+            
+            productsToRender.forEach(product => {
+                const productCardLink = document.createElement('a');
+                productCardLink.href = `#/producto/${product.id}`;
+                productCardLink.className = 'product-card';
+                let carouselHTML = `<div class="placeholder"><i class="fas fa-image"></i><p>Sin imagen</p></div>`;
+                if (product.images && product.images.length > 0 && product.images[0]) { carouselHTML = `<div class="carousel-container">${product.images.map(img => `<div class="carousel-slide" style="--bg-img: url('${img}')"><img src="${img}" alt="${product.name}" loading="lazy"></div>`).join('')}</div>`; }
+                const productPrice = getPrice(product);
+                const priceDisplay = productPrice > 0 ? `<div class="product-price">$${productPrice.toFixed(2)}</div>` : `<div class="product-price price-inquiry-text">Consultar Precio</div>`;
+                productCardLink.innerHTML = `<div class="product-carousel">${carouselHTML}</div><div class="product-info"><div><h3 class="product-title">${product.name}</h3><p class="product-description">${product.description || ''}</p></div>${priceDisplay}</div>`;
+                productsContainer.appendChild(productCardLink);
+            });
+        }
+        
+        function renderProductDetail(productId) {
+            const product = products.find(p => p.id == productId);
+            if (!product) { productDetailView.innerHTML = `<div class="container"><h2 class="section-title">Producto no encontrado</h2><a href="#">Volver</a></div>`; return; }
+            updateMetaTags(product);
+            
+            let carouselHTML = `<div class="placeholder"><i class="fas fa-image"></i><p>Sin imagen</p></div>`;
+            if (product.images && product.images.length > 0 && product.images[0]) {
+                carouselHTML = `<div class="carousel-container" id="carousel-container-${product.id}">${product.images.map(img => `<div class="carousel-slide" style="--bg-img: url('${img}')"><img src="${img}" alt="${product.name}"></div>`).join('')}</div>`;
+                if (product.images.length > 1) { carouselHTML += `<button class="carousel-btn prev" onclick="changeSlide('${product.id}', -1)"><i class="fas fa-chevron-left"></i></button><button class="carousel-btn next" onclick="changeSlide('${product.id}', 1)"><i class="fas fa-chevron-right"></i></button><div class="carousel-nav" id="carousel-nav-${product.id}">${product.images.map((_, index) => `<div class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="currentSlide('${product.id}', ${index})"></div>`).join('')}</div>`; }
+            }
+            
+            const formattedDescription = (product.description || 'Descripción no disponible.').replace(/\n/g, '<br>');
+            const productPrice = getPrice(product);
+            let priceDetailDisplay, actionButton;
+
+            if (productPrice > 0) {
+                priceDetailDisplay = `<div class="product-detail-price">$${productPrice.toFixed(2)}</div>`;
+                actionButton = `<button class="btn btn-primary btn-add-cart-detail" data-id="${product.id}"><i class="fas fa-shopping-cart"></i> Agregar al Carrito</button>`;
+            } else {
+                priceDetailDisplay = `<div class="product-detail-price price-inquiry-text">Consultar Precio y Disponibilidad</div>`;
+                const whatsappMessage = encodeURIComponent(`Hola AroMista, me interesa el decant ${product.name} y quisiera consultar su precio y disponibilidad. ¡Gracias!`);
+                actionButton = `<a href="https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp-inquiry"><i class="fab fa-whatsapp"></i> Consultar por WhatsApp</a>`;
+            }
+
+            productDetailView.innerHTML = `<div class="container"><a href="#" class="back-to-products"><i class="fas fa-arrow-left"></i> Volver a Productos</a><div class="product-detail-layout"><div class="product-carousel">${carouselHTML}</div><div class="product-detail-info"><h2 class="product-detail-title">${product.name}</h2>${priceDetailDisplay}<p class="product-detail-description">${formattedDescription}</p><div class="product-detail-actions">${actionButton}</div></div></div></div>`;
+            if (product.images && product.images.length > 1) { initializeCarousel(product.id); }
+            if (productPrice > 0) { document.querySelector('.btn-add-cart-detail').addEventListener('click', (e) => { addToCart(e.target.closest('button').dataset.id); }); }
+        }
+
+        function updateCart() {
+            saveCartToLocalStorage();
+            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            if (cart.length === 0) { cartItems.innerHTML = '<p class="placeholder">Tu carrito está vacío</p>'; cartTotal.textContent = '0.00'; return; }
+            let total = 0;
+            cartItems.innerHTML = cart.map(item => {
+                total += getPrice(item) * item.quantity;
+                const itemImage = (item.images && item.images[0]) ? item.images[0] : 'https://via.placeholder.com/80';
+                return `<div class="cart-item" data-id="${item.id}"><img src="${itemImage}" class="cart-item-image" alt="${item.name}"><div class="cart-item-details"><div class="cart-item-info"><span class="cart-item-title">${item.name}</span><button class="remove-item" title="Eliminar">&times;</button></div><p class="cart-item-price">$${getPrice(item).toFixed(2)}</p><div class="cart-item-actions"><button class="quantity-btn decrease">-</button><span>${item.quantity}</span><button class="quantity-btn increase">+</button></div></div></div>`;
+            }).join('');
+            cartTotal.textContent = total.toFixed(2);
+        }
+
+        function initializeCarousel(productId) {
+            if (activeCarousels[productId]) clearInterval(activeCarousels[productId]);
+            const product = products.find(p => p.id == productId);
+            if(product && product.images && product.images.length > 1) { activeCarousels[productId] = setInterval(() => changeSlide(productId, 1), 5000); }
+        }
+        function changeSlide(productId, direction) {
+            const dots = document.querySelectorAll(`#carousel-nav-${productId} .carousel-dot`);
+            if (dots.length === 0) return;
+            let currentIndex = Array.from(dots).findIndex(dot => dot.classList.contains('active'));
+            currentSlide(productId, (currentIndex + direction + dots.length) % dots.length);
+        }
+        function currentSlide(productId, index) {
+            const container = document.getElementById(`carousel-container-${productId}`);
+            const dots = document.querySelectorAll(`#carousel-nav-${productId} .carousel-dot`);
+            if (!container || !dots[index]) return;
+            container.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[index].classList.add('active');
+            initializeCarousel(productId);
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id == productId);
+            if (!product) return;
+            if (getPrice(product) === 0) { showNotification(`Este producto es para consulta. Contáctanos por WhatsApp.`, 'warning'); return; }
+            const existingItem = cart.find(item => item.id == productId);
+            if (existingItem) { existingItem.quantity++; } else { cart.push({ ...product, quantity: 1 }); }
+            updateCart();
+            showNotification(`${product.name} agregado al carrito`, 'success');
+        }
+
+        function handleCartActions(e) {
+            const itemEl = e.target.closest('.cart-item');
+            if (!itemEl) return;
+            const id = itemEl.dataset.id;
+            const itemInCart = cart.find(item => item.id == id);
+            if (!itemInCart) return;
+            if (e.target.classList.contains('increase')) itemInCart.quantity++;
+            else if (e.target.classList.contains('decrease')) { itemInCart.quantity--; if (itemInCart.quantity <= 0) cart = cart.filter(item => item.id != id); } 
+            else if (e.target.classList.contains('remove-item')) { cart = cart.filter(item => item.id != id); }
+            updateCart();
+        }
+
+        function showNotification(message, type = 'success') {
+            const el = document.createElement('div');
+            el.className = `notification ${type}`;
+            el.innerHTML = `<span>${message}</span>`;
+            document.body.appendChild(el);
+            setTimeout(() => el.classList.add('show'), 10);
+            setTimeout(() => { el.classList.remove('show'); setTimeout(() => document.body.removeChild(el), 300); }, 3000);
+        }
+        
+        function checkout() {
+            if (cart.length === 0) { showNotification('Tu carrito está vacío.', 'warning'); return; }
+            const itemsWithPrice = cart.filter(item => getPrice(item) > 0);
+            if (itemsWithPrice.length === 0) {
+                showNotification('Tu carrito solo contiene productos de consulta. Contáctanos por WhatsApp.', 'warning');
+                const initialMessage = encodeURIComponent(`Hola AroMista, quisiera consultar por: ${cart.map(item => item.name).join(', ')}.`);
+                window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${initialMessage}`, '_blank');
+                return;
+            }
+            if (!customerDetails) showDetailsForm();
+            else redirectToWhatsApp();
+        }
+
+        function redirectToWhatsApp() {
+            if (!customerDetails) { showNotification('Por favor, completa tus datos de envío.', 'error'); showDetailsForm(); return; }
+            if (cart.length === 0) { showNotification('Tu carrito está vacío.', 'warning'); return; }
+            let message = `¡Hola AroMista! Mi nombre es ${customerDetails.name}. Deseo confirmar el siguiente pedido de decants:\n\n`;
+            const itemsWithPrice = cart.filter(item => getPrice(item) > 0);
+            const itemsWithoutPrice = cart.filter(item => getPrice(item) === 0);
+
+            if (itemsWithPrice.length > 0) {
+                message += "--- Productos ---\n";
+                message += itemsWithPrice.map(item => `- ${item.name} (x${item.quantity}) - $${(getPrice(item) * item.quantity).toFixed(2)}`).join('\n');
+                const total = itemsWithPrice.reduce((sum, item) => sum + getPrice(item) * item.quantity, 0);
+                message += `\n\n*Total a Pagar: $${total.toFixed(2)}*`;
+            }
+            if (itemsWithoutPrice.length > 0) {
+                message += "\n\n--- También consultar por ---\n";
+                message += itemsWithoutPrice.map(item => `- ${item.name} (x${item.quantity})`).join('\n');
+            }
+            message += `\n\n--- Mis Datos de Envío ---\nCédula: ${customerDetails.cedula}\nEmail: ${customerDetails.email}\nDirección: ${customerDetails.direccion}\nAgencia: ${customerDetails.agencia}`;
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function updateMetaTags(product = null) {
+            const defaultTitle = 'AroMista Decants - Tu Perfumería de Muestras';
+            const defaultDesc = 'Explora fragancias de lujo sin comprar la botella completa.';
+            if (product) {
+                document.title = `${product.name} | AroMista Decants`;
+                document.querySelector('meta[name="description"]').setAttribute('content', product.description || defaultDesc);
+            } else { document.title = defaultTitle; document.querySelector('meta[name="description"]').setAttribute('content', defaultDesc); }
+        }
+
+        function showDetailsForm(){ detailsOverlay.classList.add('active'); }
+        function closeDetailsForm(){ detailsOverlay.classList.remove('active'); }
+
+        window.addEventListener('DOMContentLoaded', () => { loadCartFromLocalStorage(); fetchProducts(); updateCart(); });
+        window.addEventListener('hashchange', () => { if (searchInput.value) searchInput.value = ''; handleRouteChange(); });
+        cartBtn.addEventListener('click', () => cartOverlay.classList.add('active'));
+        closeCart.addEventListener('click', () => cartOverlay.classList.remove('active'));
+        cartItems.addEventListener('click', handleCartActions);
+        checkoutBtn.addEventListener('click', checkout);
+        userBtn.addEventListener('click', showDetailsForm);
+        closeDetails.addEventListener('click', closeDetailsForm);
+        shippingForm.addEventListener('submit', saveShippingDetails);
+        searchForm.addEventListener('submit', handleSearch);
+        searchInput.addEventListener('input', showSuggestions);
+        document.addEventListener('click', (e) => { if (!searchForm.contains(e.target)) { searchSuggestions.classList.remove('visible'); } });
+        mobileMenuBtn.addEventListener('click', () => mainNav.classList.add('active'));
+        closeNavBtn.addEventListener('click', () => mainNav.classList.remove('active'));
+        document.querySelectorAll('.nav .dropdown .dropbtn').forEach(dropbtn => {
+            dropbtn.addEventListener('click', (e) => { if (window.innerWidth <= 768) { e.preventDefault(); dropbtn.parentElement.classList.toggle('active'); } });
+        });
+    </script>
+</body>
+</html>
